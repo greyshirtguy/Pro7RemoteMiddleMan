@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pro7RemoteMiddleMan", "Pro7RemoteMiddleMan\Pro7RemoteMiddleMan.csproj", "{9A13F499-5D3D-4D35-8EE7-47D6ECDA64B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A13F499-5D3D-4D35-8EE7-47D6ECDA64B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A13F499-5D3D-4D35-8EE7-47D6ECDA64B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A13F499-5D3D-4D35-8EE7-47D6ECDA64B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A13F499-5D3D-4D35-8EE7-47D6ECDA64B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {480C62EF-2939-4405-82CA-E3C3B6143C99}
+	EndGlobalSection
+EndGlobal

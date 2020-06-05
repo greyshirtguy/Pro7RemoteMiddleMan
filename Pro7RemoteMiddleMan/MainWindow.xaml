@@ -1,0 +1,31 @@
+﻿<Window x:Class="Pro7RemoteMiddleMan.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pro7RemoteMiddleMan"
+        mc:Ignorable="d"
+        Title="Pro7RemoteMiddleMan" Height="36.833" Width="166.333" Loaded="Window_Loaded" Topmost="True" Background="Transparent" MouseDown="Window_MouseDown" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None">
+    <Border CornerRadius="2"
+        Background="#FFBBBBBB">
+        <Grid>
+            <Button x:Name="btnToggleSize" Content="🔳" Height="25" Margin="0,6,7,0" VerticalAlignment="Top" Background="#FF6D6D6D" Foreground="White" HorizontalAlignment="Right" Width="26">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="2                             "/>
+
+
+                    </Style>
+
+
+                </Button.Resources>
+            </Button>
+            <Label Content="M:" HorizontalAlignment="Left" Margin="14,5,0,0" VerticalAlignment="Top"/>
+            <Label Content="S:" HorizontalAlignment="Left" Margin="85,5,0,0" VerticalAlignment="Top"/>
+            <Rectangle x:Name="MasterConnectionIndicatorRectangle" Fill="Gray" HorizontalAlignment="Left" Height="12" Margin="36,13,0,0" Stroke="Black" VerticalAlignment="Top" Width="12" RadiusX="20" RadiusY="20"/>
+            <Rectangle x:Name="SlaveConnectionIndicatorRectangle" Fill="Gray" HorizontalAlignment="Left" Height="12" Margin="104,13,0,0" Stroke="Black" VerticalAlignment="Top" Width="12" RadiusX="20" RadiusY="20"/>
+            <Label Content="▶▶" HorizontalAlignment="Left" Margin="55,5,0,0" VerticalAlignment="Top" Foreground="#FF615E5E"/>
+
+        </Grid>
+    </Border>
+</Window>
