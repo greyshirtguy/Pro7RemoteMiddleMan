@@ -1,5 +1,5 @@
 # Pro7RemoteMiddleMan
-A "Middle-Man" Windows application to provide simple Master-Slave functionality with ProPresenter 7
+A "Middle-Man" Windows application to provide simple Master-Slave functionality between two machines running ProPresenter 7
 
 ![Screenshot](Screenshot.png)
 
