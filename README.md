@@ -1,6 +1,8 @@
 # Pro7RemoteMiddleMan
 A "Middle-Man" Windows application to provide simple Master-Slave functionality with ProPresenter 7
 
+![Screenshot](Screenshot.png)
+
 Currently a proof-of-concept! - Many things are hard-coded without UI to update and it's probably super buggy!
 
 I just wanted to test the idea of creating a middle-man application to create a Master-Slave setup with ProPresenter 7.
