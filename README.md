@@ -17,7 +17,7 @@ This project was made in Visual Studio 2019 Community edition and uses WebSocket
 For fun I might finish it off - just a little.
 TODO:
 * Add connection "watchdog" logic (failed connections keep re-trying in background)
-* Add UI to input IP address and passwords for Master and Slave machines (I've added the "menu button on right)
+* Add UI to input IP address, ports and control passwords for Master and Slave machines (I've added the "menu button on right)
 * Save and restore window position at close/open
 * Test, test and test and fix bugs/issues that arise.
 
