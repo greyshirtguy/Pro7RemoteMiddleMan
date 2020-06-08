@@ -49,7 +49,7 @@ namespace Pro7RemoteMiddleMan.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("470")]
+        [global::System.Configuration.DefaultSettingValueAttribute("541")]
         public double WindowWidth {
             get {
                 return ((double)(this["WindowWidth"]));

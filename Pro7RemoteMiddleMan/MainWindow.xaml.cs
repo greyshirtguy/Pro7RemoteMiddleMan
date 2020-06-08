@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WebSocket4Net;
 using System.Web.Script.Serialization;
+using System.Windows.Media.Animation;
 
 namespace Pro7RemoteMiddleMan
 {
@@ -47,9 +48,12 @@ namespace Pro7RemoteMiddleMan
             watchDogTimer.Interval = new TimeSpan(0, 0, 1);
             watchDogTimer.Start();
 
-            // TODO: 
-            // "Flicker" indicators (and/or) arrows when messages are coming/going?
-
+            // In case settings get corrupt and we end up say zero dimension window - let's default back to small size
+            if (this.Width < 185)
+                this.Width = 185;
+            
+            if (this.Height < 40)
+                this.Height = 40;
 
         }
 
@@ -130,7 +134,7 @@ namespace Pro7RemoteMiddleMan
             else
             {
                 // Set to LARGE window size
-                this.Width = 470;
+                this.Width = 541;
                 this.Height = 370;
 
                 UpdateControlsLayout();
@@ -153,7 +157,7 @@ namespace Pro7RemoteMiddleMan
             Dispatcher.Invoke(() =>
             {
                 MasterConnectionIndicatorRectangle.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0));
-                AddLog("MasterWebSocket Connected:");
+                AddLog("Master WebSocket Connected:");
             });
 
             
@@ -166,8 +170,17 @@ namespace Pro7RemoteMiddleMan
         {
             Dispatcher.Invoke(() =>
             {
-                AddLog("MasterWebSocket Received Message: " + e.Message); ;
+                AddLog("Master Said: " + e.Message); ;
+                // "Flicker" indicators when messages arrive...
+                ColorAnimation colorAnimation = new ColorAnimation();
+                colorAnimation.From = Color.FromRgb(0, 255, 0);
+                colorAnimation.To = Color.FromRgb(128, 128, 128);
+                colorAnimation.AutoReverse = true;
+                colorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
+                colorAnimation.FillBehavior = FillBehavior.Stop;
+                MasterConnectionIndicatorRectangle.Fill.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimation);
             });
+
             
 
             // Get Dictionary representation of JSON message object objects with string keys
@@ -198,19 +211,31 @@ namespace Pro7RemoteMiddleMan
                             if (SlaveWebSocket.State == WebSocketState.Open)
                             {
                                 slaveTriggercommand = "{\"action\":\"presentationTriggerIndex\",\"slideIndex\":\"" + slideIndex + "\",\"presentationPath\":\"" + presentationPath + "\"}";
-                                AddLog("Socket 2 Sending: " + slaveTriggercommand);
+                                Dispatcher.Invoke(() =>
+                                {
+                                    AddLog("Telling Slave: " + slaveTriggercommand);
+                                    // "Flicker" arrow when sending slave a message...
+                                    ColorAnimation colorAnimation = new ColorAnimation();
+                                    colorAnimation.From = Color.FromRgb(0, 255, 0);
+                                    colorAnimation.To = Color.FromRgb(128, 128, 128);
+                                    colorAnimation.AutoReverse = true;
+                                    colorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
+                                    colorAnimation.FillBehavior = FillBehavior.Stop;
+                                    txtArrows.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimation);
+                                });
+                               
                                 // ALERT: to avoid Pro7 hanging/crash we do a workaround:
                                 // Always make sure if we are about to trigger a slide for a NEW presentationPath then send presentationRequest FIRST before presentationTriggerIndex
                                 // We do this by recording the currentPresentationPath and comparing before every triggered slide.
                                 if (CurrentPresentationPath != presentationPath)
                                 {
                                     SlaveWebSocket.Send("{\"action\": \"presentationRequest\",\"presentationPath\": \"" + presentationPath + "\",\"presentationSlideQuality\": \"0\"}");
-                                    CurrentPresentationPath = presentationPath;
 
                                     // wait a bit - hopefully pro7 slave "catches up here" and then send trigger command
                                     Task.Factory.StartNew(() =>
                                     {
-                                        System.Threading.Thread.Sleep(500);  //TODO" if we get stuck with this terrible workaround - maybe make this configurable.. (or better still, let's also enumarate the playlist upon connection and just call presenationRequest on *everything* to avoid this delay)
+                                        System.Threading.Thread.Sleep(500);  //TODO: if we get stuck with this terrible workaround - maybe make this configurable.. (or better still, let's also enumarate the playlist upon connection and just call presenationRequest on *everything* to avoid this delay)
+                                        CurrentPresentationPath = presentationPath;
                                         SlaveWebSocket.Send(slaveTriggercommand);
                                     });
                                 }
@@ -232,13 +257,11 @@ namespace Pro7RemoteMiddleMan
 
         private void MasterWebSocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            //TODO: Connection Watchdog will need to kick in here and try to re-establish connection to Master
-
-            // Update Master connection indicator to red
+               // Update Master connection indicator to red
             Dispatcher.Invoke(() =>
             {
                 MasterConnectionIndicatorRectangle.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-                AddLog("MasterWebSocket Error: " + e.Exception.Message);
+                AddLog("Master WebSocket Error: " + e.Exception.Message);
             });
             
             
@@ -246,13 +269,11 @@ namespace Pro7RemoteMiddleMan
 
         private void MasterWebSocket_Closed(object sender, EventArgs e)
         {
-            //TODO: Connection Watchdog will need to kick in here and try to re-establish connection to Master
-
             // Update Master connection indicator to red
             Dispatcher.Invoke(() =>
             {
                 MasterConnectionIndicatorRectangle.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-                AddLog("MasterWebSocket Closed:");
+                AddLog("Master WebSocket Closed:");
             });
 
             
@@ -265,7 +286,7 @@ namespace Pro7RemoteMiddleMan
             Dispatcher.Invoke(() =>
             {
                 SlaveConnectionIndicatorRectangle.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0));
-                AddLog("SlaveWebSocket Connected:");
+                AddLog("Slave WebSocket Connected:");
             });
 
             
@@ -278,7 +299,15 @@ namespace Pro7RemoteMiddleMan
         {
             Dispatcher.Invoke(() =>
             {
-                AddLog("SlaveWebSocket Received Message: " + e.Message);
+                AddLog("Slave Said: " + e.Message);
+                // "Flicker" indicators when messages arrive...
+                ColorAnimation colorAnimation = new ColorAnimation();
+                colorAnimation.From = Color.FromRgb(0, 255, 0);
+                colorAnimation.To = Color.FromRgb(128, 128, 128);
+                colorAnimation.AutoReverse = true;
+                colorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
+                colorAnimation.FillBehavior = FillBehavior.Stop;
+                SlaveConnectionIndicatorRectangle.Fill.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimation);
             });
             
             
@@ -317,13 +346,11 @@ namespace Pro7RemoteMiddleMan
 
         private void SlaveWebSocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            //TODO: Connection Watchdog will need to kick in here and try to re-establish connection to Slave
-
             // Update Slave connection indicator to red
             Dispatcher.Invoke(() =>
             {
                 SlaveConnectionIndicatorRectangle.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-                AddLog("SlaveWebSocket Error: " + e.Exception.Message);
+                AddLog("Slave WebSocket Error: " + e.Exception.Message);
             });
 
             
@@ -331,13 +358,11 @@ namespace Pro7RemoteMiddleMan
 
         private void SlaveWebSocket_Closed(object sender, EventArgs e)
         {
-            //TODO: Connection Watchdog will need to kick in here and try to re-establish connection to Slave
-
             // Update Slave connection indicator to red
             Dispatcher.Invoke(() =>
             {
                 SlaveConnectionIndicatorRectangle.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-                AddLog("SlaveWebSocket Closed:");
+                AddLog("Slave WebSocket Closed:");
             });
 
             
@@ -369,17 +394,17 @@ namespace Pro7RemoteMiddleMan
                 MasterConnectionIndicatorRectangle.Margin = margin;
                 // Move the arrow text
                 margin = txtArrows.Margin;
-                margin.Left = 213;
-                margin.Top = 2;
+                margin.Left = 246;
+                margin.Top = 73;
                 txtArrows.Margin = margin;
                 // Move the S:
                 margin = txtS.Margin;
-                margin.Left = 331;
+                margin.Left = 397;
                 margin.Top = 4;
                 txtS.Margin = margin;
                 // Move the Slave indicator
                 margin = SlaveConnectionIndicatorRectangle.Margin;
-                margin.Left = 357;
+                margin.Left = 423;
                 margin.Top = 15;
                 SlaveConnectionIndicatorRectangle.Margin = margin;
             }

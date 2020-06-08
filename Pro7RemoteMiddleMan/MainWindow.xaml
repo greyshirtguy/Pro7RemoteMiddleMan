@@ -18,10 +18,10 @@
             </Button>
             <Label x:Name="txtM" Content="M:" HorizontalAlignment="Left" Margin="91,4,0,0" VerticalAlignment="Top" FontSize="20"/>
             <Rectangle x:Name="MasterConnectionIndicatorRectangle" Fill="Gray" HorizontalAlignment="left" Height="18" Margin="124,15,0,0" Stroke="Black" VerticalAlignment="Top" Width="18" RadiusX="20" RadiusY="20"/>
-            <Label x:Name="txtS" Content="S:" Margin="331,4,0,0" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Left" Width="23"/>
-            <Rectangle x:Name="SlaveConnectionIndicatorRectangle" Fill="Gray" Height="18" Margin="357,15,0,0" Stroke="Black" VerticalAlignment="Top" RadiusX="20" RadiusY="20" HorizontalAlignment="Left" Width="18"/>
-            <Label x:Name="txtArrows" Content="▶▶" Margin="213,2,0,0" VerticalAlignment="Top" Foreground="#FF615E5E" FontSize="24" HorizontalAlignment="Left" Width="51"/>
-            <Grid HorizontalAlignment="Left" Height="113" Margin="7,42,0,0" VerticalAlignment="Top" Width="224">
+            <Label x:Name="txtS" Content="S:" Margin="397,4,0,0" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Left" Width="23"/>
+            <Rectangle x:Name="SlaveConnectionIndicatorRectangle" Fill="Gray" Height="18" Margin="423,15,0,0" Stroke="Black" VerticalAlignment="Top" RadiusX="20" RadiusY="20" HorizontalAlignment="Left" Width="18"/>
+            <Label x:Name="txtArrows" Content="▶▶" Margin="246,73,0,0" VerticalAlignment="Top" Foreground="#FF615E5E" FontSize="24" HorizontalAlignment="Left" Width="51"/>
+            <Grid HorizontalAlignment="Left" Height="113" Margin="9,42,0,0" VerticalAlignment="Top" Width="224">
                 <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5"/>
                 <Label Content="Pro7 Master" Height="28" VerticalAlignment="Top" Foreground="#FFECA221" Margin="53,-2,53,0" HorizontalContentAlignment="Center" FontSize="14"/>
                 <Label Content="IP/Host Name:" Margin="0,28,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3" HorizontalAlignment="Right" Width="77"/>
@@ -31,7 +31,7 @@
                 <Label Content="Password:" HorizontalAlignment="Right" Margin="0,82,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3"/>
                 <TextBox x:Name="txtPro7MasterPassword" HorizontalAlignment="Left" Height="22" Margin="91,81,0,0" TextWrapping="Wrap" Text="{local:SettingBinding MasterPassword}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
             </Grid>
-            <Grid HorizontalAlignment="Left" Height="113" Margin="239,42,0,0" VerticalAlignment="Top" Width="224">
+            <Grid HorizontalAlignment="Left" Height="113" Margin="309,42,0,0" VerticalAlignment="Top" Width="224">
                 <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5"/>
                 <Label Content="Pro7 Slave" Height="28" VerticalAlignment="Top" Foreground="#FFECA221" Margin="53,-2,53,0" HorizontalContentAlignment="Center" FontSize="14"/>
                 <Label Content="IP/Host Name:" Margin="0,28,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3" HorizontalAlignment="Right" Width="77"/>
@@ -41,12 +41,12 @@
                 <Label Content="Password:" HorizontalAlignment="Right" Margin="0,82,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3"/>
                 <TextBox x:Name="txtPro7SlavePassword" HorizontalAlignment="Left" Height="22" Margin="91,81,0,0" TextWrapping="Wrap" Text="{local:SettingBinding SlavePassword}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
             </Grid>
-            <Grid HorizontalAlignment="Left" Height="172" Margin="7,164,0,0" VerticalAlignment="Top" Width="456">
-                <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5"/>
+            <Grid HorizontalAlignment="Left" Height="172" Margin="8,164,0,0" VerticalAlignment="Top" Width="523">
+                <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5" Margin="1,0,-1,0"/>
                 <Label Content="MiddleMan Log" Height="28" VerticalAlignment="Top" Foreground="#FFECA221" Margin="53,-2,53,0" HorizontalContentAlignment="Center" FontSize="14"/>
-                <TextBox x:Name="txtLog" HorizontalAlignment="Left" Height="141" Margin="5,26,0,0" VerticalAlignment="Top" Width="446" ScrollViewer.HorizontalScrollBarVisibility="Auto" Foreground="#FFDADADA" Background="#7F000000" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
+                <TextBox x:Name="txtLog" HorizontalAlignment="Left" Height="141" Margin="5,26,0,0" VerticalAlignment="Top" Width="513" ScrollViewer.HorizontalScrollBarVisibility="Auto" Foreground="#FFDADADA" Background="#7F000000" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
             </Grid>
-            <Button x:Name="btnQuit" Content="Quit" HorizontalAlignment="Left" Height="23" Margin="425,341,0,0" VerticalAlignment="Top" Width="37" Click="btnQuit_Click"/>
+            <Button x:Name="btnQuit" Content="Quit" HorizontalAlignment="Left" Height="23" Margin="494,341,0,0" VerticalAlignment="Top" Width="37" Click="btnQuit_Click"/>
 
 
 
