@@ -13,12 +13,6 @@ Note: not all master-slave functionality is possble with the remote protocol (eg
 
 This project was made in Visual Studio 2019 Community edition and uses WebSocket4Net pacakge by Kerry Jiang (NuGet Package)
 
+Applicaton is now a "minimum viable product" that could be used by a non-programmer.
 
-For fun I might finish it off - just a little.
-TODO:
-* Add connection "watchdog" logic (failed connections keep re-trying in background)
-* Add UI to input IP address, ports and control passwords for Master and Slave machines (I've added the "menu button on right)
-* Save and restore window position at close/open
-* Test, test and test and fix bugs/issues that arise.
 
-At this point, it would be usable.
