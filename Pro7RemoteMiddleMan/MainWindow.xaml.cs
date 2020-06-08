@@ -65,7 +65,7 @@ namespace Pro7RemoteMiddleMan
             if (MasterWebSocket == null || (MasterWebSocket.State == WebSocketState.Closed || MasterWebSocket.State == WebSocketState.None || MasterSettings != Properties.Settings.Default.MasterNetworkAddress + Properties.Settings.Default.MasterNetworkPort + Properties.Settings.Default.MasterPassword))
             {
                 // Kill existing connection (in case where properties have changed but we have an open connection)
-                if (MasterWebSocket != null && MasterWebSocket.State == WebSocketState.Open)
+                if (MasterWebSocket != null && (MasterWebSocket.State == WebSocketState.Open || MasterWebSocket.State == WebSocketState.Connecting))
                 {
                     MasterWebSocket.Close();
                     MasterWebSocket.Opened -= MasterWebSocket_Opened;
@@ -89,7 +89,7 @@ namespace Pro7RemoteMiddleMan
             if (SlaveWebSocket == null  || (SlaveWebSocket.State == WebSocketState.Closed || SlaveWebSocket.State == WebSocketState.None || SlaveSettings != Properties.Settings.Default.SlaveNetworkAddress + Properties.Settings.Default.SlaveNetworkPort + Properties.Settings.Default.SlavePassword))
             {
                 // Kill existing connection (in case where properties have changed but we have an open connection)
-                if (SlaveWebSocket != null && SlaveWebSocket.State == WebSocketState.Open)
+                if (SlaveWebSocket != null && (SlaveWebSocket.State == WebSocketState.Open || SlaveWebSocket.State == WebSocketState.Connecting))
                 {
                     SlaveWebSocket.Close();
                     SlaveWebSocket.Opened -= SlaveWebSocket_Opened;
