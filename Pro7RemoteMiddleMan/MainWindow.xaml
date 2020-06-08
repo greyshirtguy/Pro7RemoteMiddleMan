@@ -5,26 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pro7RemoteMiddleMan"
         mc:Ignorable="d"
-        Title="Pro7RemoteMiddleMan" Height="36.833" Width="166.333" Loaded="Window_Loaded" Topmost="True" Background="Transparent" MouseDown="Window_MouseDown" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None">
+        Title="Pro7RemoteMiddleMan" Left="{local:SettingBinding WindowLeft}" Top="{local:SettingBinding WindowTop}" Height="{local:SettingBinding WindowHeight}" Width="{local:SettingBinding WindowWidth}" Loaded="Window_Loaded" Topmost="True" Background="Transparent" MouseDown="Window_MouseDown" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" Closing="Window_Closing" MouseDoubleClick="Window_MouseDoubleClick">
     <Border CornerRadius="2"
         Background="#FFBBBBBB">
         <Grid>
-            <Button x:Name="btnToggleSize" Content="🔳" Height="25" Margin="0,6,7,0" VerticalAlignment="Top" Background="#FF6D6D6D" Foreground="White" HorizontalAlignment="Right" Width="26">
+            <Button x:Name="btnToggleSize" Content="🔳" Height="25" Margin="0,8,8,0" VerticalAlignment="Top" Background="#FF6D6D6D" Foreground="White" HorizontalAlignment="Right" Width="26" Click="btnToggleSize_Click">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="2                             "/>
-
-
                     </Style>
-
-
                 </Button.Resources>
             </Button>
-            <Label Content="M:" HorizontalAlignment="Left" Margin="14,5,0,0" VerticalAlignment="Top"/>
-            <Label Content="S:" HorizontalAlignment="Left" Margin="85,5,0,0" VerticalAlignment="Top"/>
-            <Rectangle x:Name="MasterConnectionIndicatorRectangle" Fill="Gray" HorizontalAlignment="Left" Height="12" Margin="36,13,0,0" Stroke="Black" VerticalAlignment="Top" Width="12" RadiusX="20" RadiusY="20"/>
-            <Rectangle x:Name="SlaveConnectionIndicatorRectangle" Fill="Gray" HorizontalAlignment="Left" Height="12" Margin="104,13,0,0" Stroke="Black" VerticalAlignment="Top" Width="12" RadiusX="20" RadiusY="20"/>
-            <Label Content="▶▶" HorizontalAlignment="Left" Margin="55,5,0,0" VerticalAlignment="Top" Foreground="#FF615E5E"/>
+            <Label x:Name="txtM" Content="M:" HorizontalAlignment="Left" Margin="91,4,0,0" VerticalAlignment="Top" FontSize="20"/>
+            <Rectangle x:Name="MasterConnectionIndicatorRectangle" Fill="Gray" HorizontalAlignment="left" Height="18" Margin="124,15,0,0" Stroke="Black" VerticalAlignment="Top" Width="18" RadiusX="20" RadiusY="20"/>
+            <Label x:Name="txtS" Content="S:" Margin="331,4,0,0" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Left" Width="23"/>
+            <Rectangle x:Name="SlaveConnectionIndicatorRectangle" Fill="Gray" Height="18" Margin="357,15,0,0" Stroke="Black" VerticalAlignment="Top" RadiusX="20" RadiusY="20" HorizontalAlignment="Left" Width="18"/>
+            <Label x:Name="txtArrows" Content="▶▶" Margin="213,2,0,0" VerticalAlignment="Top" Foreground="#FF615E5E" FontSize="24" HorizontalAlignment="Left" Width="51"/>
+            <Grid HorizontalAlignment="Left" Height="113" Margin="7,42,0,0" VerticalAlignment="Top" Width="224">
+                <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5"/>
+                <Label Content="Pro7 Master" Height="28" VerticalAlignment="Top" Foreground="#FFECA221" Margin="53,-2,53,0" HorizontalContentAlignment="Center" FontSize="14"/>
+                <Label Content="IP/Host Name:" Margin="0,28,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3" HorizontalAlignment="Right" Width="77"/>
+                <TextBox x:Name="txtPro7MasterHost" HorizontalAlignment="Left" Height="22" Margin="91,27,0,0" Text="{local:SettingBinding MasterNetworkAddress}" TextWrapping="Wrap" VerticalAlignment="Top" Width="122" Background="#66000000" Foreground="#FFC8C8C8"/>
+                <Label Content="Port:" Margin="0,56,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3" HorizontalAlignment="Right" Width="24"/>
+                <TextBox x:Name="txtPro7MasterPort" HorizontalAlignment="Left" Height="22" Margin="91,54,0,0" TextWrapping="Wrap" Text="{local:SettingBinding MasterNetworkPort}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
+                <Label Content="Password:" HorizontalAlignment="Right" Margin="0,82,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3"/>
+                <TextBox x:Name="txtPro7MasterPassword" HorizontalAlignment="Left" Height="22" Margin="91,81,0,0" TextWrapping="Wrap" Text="{local:SettingBinding MasterPassword}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="113" Margin="239,42,0,0" VerticalAlignment="Top" Width="224">
+                <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5"/>
+                <Label Content="Pro7 Slave" Height="28" VerticalAlignment="Top" Foreground="#FFECA221" Margin="53,-2,53,0" HorizontalContentAlignment="Center" FontSize="14"/>
+                <Label Content="IP/Host Name:" Margin="0,28,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3" HorizontalAlignment="Right" Width="77"/>
+                <TextBox x:Name="txtPro7SlaveHost" HorizontalAlignment="Left" Height="22" Margin="91,27,0,0" TextWrapping="Wrap" Text="{local:SettingBinding SlaveNetworkAddress}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
+                <Label Content="Port:" Margin="0,56,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3" HorizontalAlignment="Right" Width="24"/>
+                <TextBox x:Name="txtPro7SlavePort" HorizontalAlignment="Left" Height="22" Margin="91,54,0,0" TextWrapping="Wrap" Text="{local:SettingBinding SlaveNetworkPort}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
+                <Label Content="Password:" HorizontalAlignment="Right" Margin="0,82,137,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Padding="0" Foreground="#FFC3C3C3"/>
+                <TextBox x:Name="txtPro7SlavePassword" HorizontalAlignment="Left" Height="22" Margin="91,81,0,0" TextWrapping="Wrap" Text="{local:SettingBinding SlavePassword}" VerticalAlignment="Top" Width="122" Background="#7F000000" Foreground="#FFC9C9C9"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="172" Margin="7,164,0,0" VerticalAlignment="Top" Width="456">
+                <Rectangle Fill="#FF6A6A6A" Stroke="#FF6E6E6E" RadiusX="5" RadiusY="5"/>
+                <Label Content="MiddleMan Log" Height="28" VerticalAlignment="Top" Foreground="#FFECA221" Margin="53,-2,53,0" HorizontalContentAlignment="Center" FontSize="14"/>
+                <TextBox x:Name="txtLog" HorizontalAlignment="Left" Height="141" Margin="5,26,0,0" VerticalAlignment="Top" Width="446" ScrollViewer.HorizontalScrollBarVisibility="Auto" Foreground="#FFDADADA" Background="#7F000000" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
+            </Grid>
+            <Button x:Name="btnQuit" Content="Quit" HorizontalAlignment="Left" Height="23" Margin="425,341,0,0" VerticalAlignment="Top" Width="37" Click="btnQuit_Click"/>
+
+
 
         </Grid>
     </Border>

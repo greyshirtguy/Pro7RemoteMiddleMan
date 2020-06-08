@@ -1,7 +1,36 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Pro7RemoteMiddleMan.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WindowLeft" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="WindowTop" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="WindowWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">470</Value>
+    </Setting>
+    <Setting Name="WindowHeight" Type="System.String" Scope="User">
+      <Value Profile="(Default)">370</Value>
+    </Setting>
+    <Setting Name="MasterNetworkAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="MasterNetworkPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">65432</Value>
+    </Setting>
+    <Setting Name="MasterPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">control</Value>
+    </Setting>
+    <Setting Name="SlaveNetworkAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="SlaveNetworkPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">65432</Value>
+    </Setting>
+    <Setting Name="SlavePassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">control</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
