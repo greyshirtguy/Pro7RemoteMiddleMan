@@ -12,7 +12,7 @@ Note: Not all master-slave functionality is possble with the remote protocol (Th
 
 This project was made in Visual Studio 2019 Community edition and uses WebSocket4Net pacakge by Kerry Jiang (NuGet Package)
 
-This applicaton is now a "minimum viable product" that could be used by a non-programmer.
+This applicaton is now a "minimum viable product" that could be used by a non-programmer. Download a pre-built, ready to run release from here: https://github.com/greyshirtguy/Pro7RemoteMiddleMan/releases
 
 I'll probably leave this much like it is since RV will likely soon release new features that make this no longer required.
 
