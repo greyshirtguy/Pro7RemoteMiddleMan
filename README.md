@@ -1,6 +1,6 @@
 # Pro7RemoteMiddleMan
 A "Middle-Man" Windows application to provide simple Master-Slave functionality between two machines running ProPresenter 7.
-You can run this on any Windows PC on your network and then enter network details for two Pro7 machines to setup a Master-Slave control between them.  (NB. Only slide triggers are supported - no clear actions are sent)
+You can run this on any Windows PC on your network and then enter network details for two Pro7 machines to setup a Master-Slave control between them.  (NB. Only slide triggers are supported - Some Clear action messages are sent from later versions of Pro7 - but not (yet) in a reliable way that could be used in a master-slave situation)
 
 ![Screenshot](Screenshot.png)
 
