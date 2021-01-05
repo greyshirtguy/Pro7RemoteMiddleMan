@@ -224,7 +224,7 @@ namespace Pro7RemoteMiddleMan
                                     txtArrows.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimation);
                                 });
                                
-                                // ALERT: to avoid Pro7 hanging/crash we do a workaround:
+                                // ALERT: to avoid Pro7 hanging/crash we do a workaround: (NO LONGER NEEDED SINCE Pro 7.1.2 !!!!)
                                 // Always make sure if we are about to trigger a slide for a NEW presentationPath then send presentationRequest FIRST before presentationTriggerIndex
                                 // We do this by recording the currentPresentationPath and comparing before every triggered slide.
                                 if (CurrentPresentationPath != presentationPath)
@@ -449,7 +449,7 @@ namespace Pro7RemoteMiddleMan
         }
     }
 
-
+ 
 
     public static class StringExtension
     {
