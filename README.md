@@ -1,7 +1,7 @@
 # Pro7RemoteMiddleMan
 A "Middle-Man" Windows application to provide simple Master-Slave functionality between two machines running ProPresenter 7.
-You can run this on any Windows PC on your network and then enter network details for two Pro7 machines to setup a Master-Slave control between them.
-You do not have to run this on the same computer as the Master or Slave. (Yes it works with Pro7 on MacOS)
+You can run this on *any* Windows PC on your network and then enter network details for two Pro7 machines to setup a Master-Slave control between them.
+You do not have to run this on the same computer as the Master or Slave. It can connect to Pro7 on either Windows or MacOS machine for master or slave - all combinations work!
 
 ![Screenshot](Screenshot.png)
 
