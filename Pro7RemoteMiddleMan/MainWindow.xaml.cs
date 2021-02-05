@@ -28,6 +28,7 @@ namespace Pro7RemoteMiddleMan
         String MasterSettings = ""; // Keeping track of settings used to connect (so we can re-connect if they change)
         String SlaveSettings = ""; // Keeping track of settings used to connect (so we can re-connect if they change)
         String CurrentPresentationPath;  // This is kept as part of the logic for a work-around to avoid hanging Pro7 (Never send a presentationTriggerIndex message that targets a presentation that is not currently active without first sending a presentationRequest message!)
+        DateTime TimeStampOfLastClearText;  // Record the timestamp of most recently recieved "clearText" action from master! (so we can only send a clearText to slave when we get two in a row quickly!)
 
         //websocket.Send("{\"action\":\"presentationTriggerNext\"}");
 
@@ -72,15 +73,21 @@ namespace Pro7RemoteMiddleMan
                     MasterWebSocket.Closed -= MasterWebSocket_Closed;
                     MasterWebSocket.Error -= MasterWebSocket_Error;
                     MasterWebSocket = null;
-                    
                 }
                     
-                MasterWebSocket = new WebSocket("ws://" + Properties.Settings.Default.MasterNetworkAddress + ":" + Properties.Settings.Default.MasterNetworkPort + "/remote");
-                MasterWebSocket.Opened += MasterWebSocket_Opened;
-                MasterWebSocket.Closed += MasterWebSocket_Closed;
-                MasterWebSocket.Error += MasterWebSocket_Error;
-                MasterWebSocket.MessageReceived += MasterWebSocket_MessageReceived;
-                MasterWebSocket.Open();
+                try
+                {
+                    MasterWebSocket = new WebSocket("ws://" + Properties.Settings.Default.MasterNetworkAddress + ":" + Properties.Settings.Default.MasterNetworkPort + "/remote");
+                    MasterWebSocket.Opened += MasterWebSocket_Opened;
+                    MasterWebSocket.Closed += MasterWebSocket_Closed;
+                    MasterWebSocket.Error += MasterWebSocket_Error;
+                    MasterWebSocket.MessageReceived += MasterWebSocket_MessageReceived;
+                    MasterWebSocket.Open();
+                }
+                catch
+                {
+                    AddLog("Could not setup/connect to master");
+                }
                 MasterSettings = Properties.Settings.Default.MasterNetworkAddress + Properties.Settings.Default.MasterNetworkPort + Properties.Settings.Default.MasterPassword;
             }
 
@@ -98,12 +105,19 @@ namespace Pro7RemoteMiddleMan
                     SlaveWebSocket = null;
                 }
 
-                SlaveWebSocket = new WebSocket("ws://" + Properties.Settings.Default.SlaveNetworkAddress + ":" + Properties.Settings.Default.SlaveNetworkPort + "/remote");
-                SlaveWebSocket.Opened += SlaveWebSocket_Opened;
-                SlaveWebSocket.Closed += SlaveWebSocket_Closed;
-                SlaveWebSocket.Error += SlaveWebSocket_Error;
-                SlaveWebSocket.MessageReceived += SlaveWebSocket_MessageReceived;
-                SlaveWebSocket.Open();
+                try
+                {
+                    SlaveWebSocket = new WebSocket("ws://" + Properties.Settings.Default.SlaveNetworkAddress + ":" + Properties.Settings.Default.SlaveNetworkPort + "/remote");
+                    SlaveWebSocket.Opened += SlaveWebSocket_Opened;
+                    SlaveWebSocket.Closed += SlaveWebSocket_Closed;
+                    SlaveWebSocket.Error += SlaveWebSocket_Error;
+                    SlaveWebSocket.MessageReceived += SlaveWebSocket_MessageReceived;
+                    SlaveWebSocket.Open();
+                }
+                catch
+                {
+                    AddLog("Could not setup/connect to slave");
+                }
                 SlaveSettings = Properties.Settings.Default.SlaveNetworkAddress + Properties.Settings.Default.SlaveNetworkPort + Properties.Settings.Default.SlavePassword;
             }
         }
@@ -187,6 +201,8 @@ namespace Pro7RemoteMiddleMan
             var JSONObjMessage = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(e.Message);
             if (JSONObjMessage.ContainsKey("action"))
             {
+                String slaveTriggercommand = "";
+
                 switch (JSONObjMessage["action"])
                 {
                     case "authenticate":
@@ -203,56 +219,87 @@ namespace Pro7RemoteMiddleMan
                         break;
                     case "presentationTriggerIndex":
                         {
-                            String slaveTriggercommand = "";
-
                             // "Master" has triggered a slide. let's send trigger to all slaves
                             String slideIndex = JSONObjMessage["slideIndex"].ToString();
                             String presentationPath = JSONObjMessage["presentationPath"].ToString();
-                            if (SlaveWebSocket.State == WebSocketState.Open)
+
+                            slaveTriggercommand = "{\"action\":\"presentationTriggerIndex\",\"slideIndex\":\"" + slideIndex + "\",\"presentationPath\":\"" + presentationPath + "\"}";
+                            SendSlaveCommand(slaveTriggercommand);
+                                
+                            /* (NO LONGER NEEDED SINCE Pro 7.1.2 !!!!)
+                            // ALERT: to avoid Pro7 hanging/crash we do a workaround: 
+                            // Always make sure if we are about to trigger a slide for a NEW presentationPath then send presentationRequest FIRST before presentationTriggerIndex
+                            // We do this by recording the currentPresentationPath and comparing before every triggered slide.
+                            if (CurrentPresentationPath != presentationPath)
                             {
-                                slaveTriggercommand = "{\"action\":\"presentationTriggerIndex\",\"slideIndex\":\"" + slideIndex + "\",\"presentationPath\":\"" + presentationPath + "\"}";
-                                Dispatcher.Invoke(() =>
-                                {
-                                    AddLog("Telling Slave: " + slaveTriggercommand);
-                                    // "Flicker" arrow when sending slave a message...
-                                    ColorAnimation colorAnimation = new ColorAnimation();
-                                    colorAnimation.From = Color.FromRgb(0, 255, 0);
-                                    colorAnimation.To = Color.FromRgb(128, 128, 128);
-                                    colorAnimation.AutoReverse = true;
-                                    colorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
-                                    colorAnimation.FillBehavior = FillBehavior.Stop;
-                                    txtArrows.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimation);
-                                });
-                               
-                                // ALERT: to avoid Pro7 hanging/crash we do a workaround: (NO LONGER NEEDED SINCE Pro 7.1.2 !!!!)
-                                // Always make sure if we are about to trigger a slide for a NEW presentationPath then send presentationRequest FIRST before presentationTriggerIndex
-                                // We do this by recording the currentPresentationPath and comparing before every triggered slide.
-                                if (CurrentPresentationPath != presentationPath)
-                                {
-                                    SlaveWebSocket.Send("{\"action\": \"presentationRequest\",\"presentationPath\": \"" + presentationPath + "\",\"presentationSlideQuality\": \"0\"}");
+                                SlaveWebSocket.Send("{\"action\": \"presentationRequest\",\"presentationPath\": \"" + presentationPath + "\",\"presentationSlideQuality\": \"0\"}");
 
-                                    // wait a bit - hopefully pro7 slave "catches up here" and then send trigger command
-                                    Task.Factory.StartNew(() =>
-                                    {
-                                        System.Threading.Thread.Sleep(500);  //TODO: if we get stuck with this terrible workaround - maybe make this configurable.. (or better still, let's also enumarate the playlist upon connection and just call presenationRequest on *everything* to avoid this delay)
-                                        CurrentPresentationPath = presentationPath;
-                                        SlaveWebSocket.Send(slaveTriggercommand);
-                                    });
-                                }
-                                else
+                                // wait a bit - hopefully pro7 slave "catches up here" and then send trigger command
+                                Task.Factory.StartNew(() =>
                                 {
+                                    System.Threading.Thread.Sleep(500);  //TODO: if we get stuck with this terrible workaround - maybe make this configurable.. (or better still, let's also enumarate the playlist upon connection and just call presenationRequest on *everything* to avoid this delay)
+                                    CurrentPresentationPath = presentationPath;
                                     SlaveWebSocket.Send(slaveTriggercommand);
-                                }
-
-
+                                });
                             }
+                            else
+                            {
+                                SlaveWebSocket.Send(slaveTriggercommand);
+                            } */
+
                         }
+                        break;
+                    case "clearText":
+                        if (TimeStampOfLastClearText != null && DateTime.Now.Subtract(TimeStampOfLastClearText).TotalMilliseconds < 300)  //TODO: make this configurable???
+                        {
+                            slaveTriggercommand = "{\"action\":\"clearText\"}";
+                            SendSlaveCommand(slaveTriggercommand);  
+                        } 
+                        TimeStampOfLastClearText = DateTime.Now;
+                        break;
+                    case "clearVideo":
+                        slaveTriggercommand = "{\"action\":\"clearVideo\"}";
+                        SendSlaveCommand(slaveTriggercommand);
+                        TimeStampOfLastClearText = DateTime.Now;
+                        break;
+                    case "clearAudio":
+                        slaveTriggercommand = "{\"action\":\"clearAudio\"}";
+                        SendSlaveCommand(slaveTriggercommand);
+                        TimeStampOfLastClearText = DateTime.Now;
+                        break;
+                    case "clearAll":
+                        slaveTriggercommand = "{\"action\":\"clearAll\"}";
+                        SendSlaveCommand(slaveTriggercommand);
+                        TimeStampOfLastClearText = DateTime.Now;
                         break;
                     default:
                         break;
                 }
                 
             }
+        }
+
+        private void SendSlaveCommand(String slaveTriggercommand)
+        {
+            if (SlaveWebSocket.State == WebSocketState.Open)
+            {
+                // Update log and show activity with a "flicker" animation of the arrows in UI
+                Dispatcher.Invoke(() =>
+                {
+                    AddLog("Telling Slave: " + slaveTriggercommand);
+                    // "Flicker" arrow when sending slave a message...
+                    ColorAnimation colorAnimation = new ColorAnimation();
+                    colorAnimation.From = Color.FromRgb(0, 255, 0);
+                    colorAnimation.To = Color.FromRgb(128, 128, 128);
+                    colorAnimation.AutoReverse = true;
+                    colorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
+                    colorAnimation.FillBehavior = FillBehavior.Stop;
+                    txtArrows.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimation);
+                });
+
+                // Send command on websocket
+                SlaveWebSocket.Send(slaveTriggercommand);
+            }   
         }
 
         private void MasterWebSocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
