@@ -8,7 +8,7 @@ I just wanted to test the idea of creating a middle-man application to create a 
 It uses the mobile App remote protocol to connect to two separate Pro7 machines anywhere on your network via websockets.
 It listens for notifications of slides being triggered in the "master" Pro7 and sends trigger commands for same presentation/slide to the "slave" Pro7.
 
-Note: Not all master-slave functionality is possble with the remote protocol (This is because there are no notification messages sent from Pro7 to the remote app when a user perfroms on clear actions.)
+Note: Not all master-slave functionality is possble with the remote protocol (This is because there are not notification messages sent from Pro7 to the remote app when a user perfroms some actions.)
 
 This project was made in Visual Studio 2019 Community edition and uses WebSocket4Net pacakge by Kerry Jiang (NuGet Package)
 
