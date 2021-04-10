@@ -177,7 +177,7 @@ namespace Pro7RemoteMiddleMan
             
 
             // Send authentication message
-            MasterWebSocket.Send("{\"action\":\"authenticate\",\"protocol\":\"700\",\"password\":\"" + Properties.Settings.Default.MasterPassword  + "\"}");
+            MasterWebSocket.Send("{\"action\":\"authenticate\",\"protocol\":\"701\",\"password\":\"" + Properties.Settings.Default.MasterPassword  + "\"}");
         }
 
         private void MasterWebSocket_MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -339,7 +339,7 @@ namespace Pro7RemoteMiddleMan
             
 
             // Send authentication message
-            SlaveWebSocket.Send("{\"action\":\"authenticate\",\"protocol\":\"700\",\"password\":\"" + Properties.Settings.Default.SlavePassword  + "\"}");
+            SlaveWebSocket.Send("{\"action\":\"authenticate\",\"protocol\":\"701\",\"password\":\"" + Properties.Settings.Default.SlavePassword  + "\"}");
         }
 
         private void SlaveWebSocket_MessageReceived(object sender, MessageReceivedEventArgs e)
